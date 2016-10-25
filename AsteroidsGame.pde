@@ -16,19 +16,19 @@ public void draw() {
 public void keyPressed() {
   if (keyCode == LEFT) {
     // rotate left
-    spaceship.rotate(-5);
+    spaceship.rotate(-10);
   }
   if (keyCode == RIGHT) {
     // rotate right
-    spaceship.rotate(5);
+    spaceship.rotate(10);
   }
   if (keyCode == UP) {
-    // rotate forward
-    spaceship.accelerate(0.5);
+    // accelerate forward
+    spaceship.accelerate(0.75);
   }
   if (keyCode == DOWN) {
-    // rotate backward
-    spaceship.accelerate(-0.5);
+    // accelerate backward
+    spaceship.accelerate(-0.75);
   }
   if (key == ' ') {
     // hyperspace
@@ -36,7 +36,7 @@ public void keyPressed() {
     spaceship.setY((int)(Math.random() * 400));
     spaceship.setDirectionX(0);
     spaceship.setDirectionY(0);
-    spaceship.setPointDirection(0);
+    spaceship.setPointDirection((int)(Math.random() * 360));
   }
 }
 class SpaceShip extends Floater {
@@ -48,11 +48,9 @@ class SpaceShip extends Floater {
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
-    corners = 10;
-    // xCorners = new int[corners];
-    // yCorners = new int[corners];
-    int[] xS = { -6, -24, -12, -24,  -6,   5,   5,  24,   5,   5};
-    int[] yS = {  9,  16,   0, -16,  -9, -24,  -6,   0,   6,  24};
+    corners = 4;
+    int[] xS = {-6,  9, -6, -3};
+    int[] yS = { 6,  0, -6,  0};
     xCorners = xS;
     yCorners = yS;
   }
@@ -78,7 +76,7 @@ class Star extends Floater {
     myCenterY = Math.random() * 400;
     myDirectionX = 0;
     myDirectionY = 0;
-    myPointDirection = Math.random() * 180;
+    myPointDirection = Math.random() * 360;
     corners = 10;
     int[] xS = { -6, -24, -12, -24,  -6,   5,   5,  24,   5,   5};
     int[] yS = {  9,  16,   0, -16,  -9, -24,  -6,   0,   6,  24};
@@ -121,7 +119,7 @@ abstract class Floater {
   //Accelerates the floater in the direction it is pointing (myPointDirection)   
   public void accelerate(double dAmount) {
     //convert the current direction the floater is pointing to radians
-    double dRadians =myPointDirection*(Math.PI/180);
+    double dRadians = myPointDirection*(Math.PI/180);
     //change coordinates of direction of travel
     myDirectionX += ((dAmount) * Math.cos(dRadians));
     myDirectionY += ((dAmount) * Math.sin(dRadians));
