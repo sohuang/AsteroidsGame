@@ -14,19 +14,19 @@ public void draw() {
   star.show();
 }
 public void keyPressed() {
-  if (keyCode == LEFT) {
+  if (keyCode == LEFT  || key == 'a' || key == 'A') {
     // rotate left
     spaceship.rotate(-10);
   }
-  if (keyCode == RIGHT) {
+  if (keyCode == RIGHT || key == 'd' || key == 'D') {
     // rotate right
     spaceship.rotate(10);
   }
-  if (keyCode == UP) {
+  if (keyCode == UP    || key == 'w' || key == 'W') {
     // accelerate forward
     spaceship.accelerate(0.75);
   }
-  if (keyCode == DOWN) {
+  if (keyCode == DOWN  || key == 's' || key == 'S') {
     // accelerate backward
     spaceship.accelerate(-0.75);
   }
@@ -48,6 +48,7 @@ class SpaceShip extends Floater {
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
+    // triangle thing
     corners = 4;
     int[] xS = {-6,  9, -6, -3};
     int[] yS = { 6,  0, -6,  0};
@@ -77,11 +78,20 @@ class Star extends Floater {
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = Math.random() * 360;
-    corners = 10;
-    int[] xS = { -6, -24, -12, -24,  -6,   5,   5,  24,   5,   5};
-    int[] yS = {  9,  16,   0, -16,  -9, -24,  -6,   0,   6,  24};
+
+    // hexagon stars
+    corners = 6;
+    int[] xS = {3, 6,  3, -3, -6, -3};
+    int[] yS = {5, 0, -5, -5,  0,  5};
     xCorners = xS;
     yCorners = yS;
+    
+    // actual star shape
+    // corners = 10;
+    // int[] xS = { -6, -24, -12, -24,  -6,   5,   5,  24,   5,   5};
+    // int[] yS = {  9,  16,   0, -16,  -9, -24,  -6,   0,   6,  24};
+    // xCorners = xS;
+    // yCorners = yS;
   }
 
   public void setX(int x) {myCenterX = x;}
