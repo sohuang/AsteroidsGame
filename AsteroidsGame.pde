@@ -1,10 +1,11 @@
-SpaceShip spaceship = new SpaceShip();
-Star star = new Star();
+SpaceShip spaceship;
+Star star;
 
 public void setup() {
   size(600, 400);
   background(15, 25, 50);
-  // spaceship.accelerate(2);
+  spaceship = new SpaceShip();
+  star = new Star();
 }
 public void draw() {
   background(15, 25, 50);
@@ -71,7 +72,7 @@ class SpaceShip extends Floater {
 class Star extends Floater {
 
   Star() {
-    myFillColor = color(15, 25, 50);
+    myFillColor = color(255, 255, 255);
     myStrokeColor = color(255, 255, 255);
     myCenterX = Math.random() * 600;
     myCenterY = Math.random() * 400;
@@ -79,19 +80,23 @@ class Star extends Floater {
     myDirectionY = 0;
     myPointDirection = Math.random() * 360;
 
+    // pointy star
+    corners = 8;
+    int[] xS = {0, 1, 4,  1,  0, -1, -4, -1};
+    int[] yS = {4, 1, 0, -1, -4, -1,  0,  1};
+
     // hexagon stars
-    corners = 6;
-    int[] xS = {3, 6,  3, -3, -6, -3};
-    int[] yS = {5, 0, -5, -5,  0,  5};
-    xCorners = xS;
-    yCorners = yS;
-    
+    // corners = 6;
+    // int[] xS = {3, 6,  3, -3, -6, -3};
+    // int[] yS = {5, 0, -5, -5,  0,  5};
+
     // actual star shape
     // corners = 10;
     // int[] xS = { -6, -24, -12, -24,  -6,   5,   5,  24,   5,   5};
     // int[] yS = {  9,  16,   0, -16,  -9, -24,  -6,   0,   6,  24};
-    // xCorners = xS;
-    // yCorners = yS;
+
+    xCorners = xS;
+    yCorners = yS;
   }
 
   public void setX(int x) {myCenterX = x;}
@@ -111,7 +116,7 @@ abstract class Floater {
   protected int corners;  //the number of corners, a triangular floater has 3   
   protected int[] xCorners;
   protected int[] yCorners;
-  protected int myStrokeColor, myFillColor;
+  protected color myStrokeColor, myFillColor;
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
