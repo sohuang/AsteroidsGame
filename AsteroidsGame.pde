@@ -1,18 +1,24 @@
 SpaceShip spaceship;
-Star star;
+Star[] stars;
+int numStars = 50;
 
 public void setup() {
   size(600, 400);
   background(15, 25, 50);
+  noCursor();
   spaceship = new SpaceShip();
-  star = new Star();
+  stars = new Star[numStars];
+  for (int i = 0; i < numStars; i++) {
+    stars[i] = new Star();
+  }
 }
 public void draw() {
   background(15, 25, 50);
   spaceship.move();
   spaceship.show();
-  star.move();
-  star.show();
+  for (int i = 0; i < numStars; i++) {
+    stars[i].show();
+  }
 }
 public void keyPressed() {
   if (keyCode == LEFT  || key == 'a' || key == 'A') {
@@ -72,8 +78,8 @@ class SpaceShip extends Floater {
 class Star extends Floater {
 
   Star() {
-    myFillColor = color(255, 255, 255);
-    myStrokeColor = color(255, 255, 255);
+    myFillColor = color(160, 170, 195);
+    myStrokeColor = color(160, 170, 195);
     myCenterX = Math.random() * 600;
     myCenterY = Math.random() * 400;
     myDirectionX = 0;
