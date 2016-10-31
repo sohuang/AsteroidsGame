@@ -1,23 +1,38 @@
 SpaceShip spaceship;
 Star[] stars;
 int numStars = 50;
+Asteroid[] asteroids;
+int numAsteroids = 10;
 
 public void setup() {
   size(600, 400);
-  background(15, 25, 50);
+  background(0, 25, 50);
   noCursor();
+  noStroke();
   spaceship = new SpaceShip();
   stars = new Star[numStars];
   for (int i = 0; i < numStars; i++) {
     stars[i] = new Star();
   }
+  asteroids = new Asteroid[numAsteroids];
+  for (int i = 0; i < numAsteroids; i++) {
+    asteroids[i] = new Asteroid();
+    asteroids[i].accelerate(Math.random() * 0.3);
+  }
 }
 public void draw() {
-  background(15, 25, 50);
-  spaceship.move();
-  spaceship.show();
+  background(0, 25, 50);
   for (int i = 0; i < numStars; i++) {
     stars[i].show();
+  }
+  // background(15, 25, 50, 0.1);
+  spaceship.move();
+  spaceship.show();
+  
+  for (int i = 0; i < numAsteroids; i++) {
+    asteroids[i].show();
+    asteroids[i].rotate(1);
+    asteroids[i].move();
   }
 }
 public void keyPressed() {
@@ -49,7 +64,7 @@ public void keyPressed() {
 class SpaceShip extends Floater {
 
   SpaceShip() {
-    myStrokeColor = myFillColor = color(255, 255, 255);
+    myColor = color(255, 255, 255);
     myCenterX = Math.random() * 600;
     myCenterY = Math.random() * 400;
     myDirectionX = 0;
@@ -78,8 +93,8 @@ class SpaceShip extends Floater {
 class Star extends Floater {
 
   Star() {
-    myFillColor = color(160, 170, 195);
-    myStrokeColor = color(160, 170, 195);
+    // myColor = color(0, 50, 100);
+    myColor = color(163, 181, 194);
     myCenterX = Math.random() * 600;
     myCenterY = Math.random() * 400;
     myDirectionX = 0;
@@ -90,11 +105,6 @@ class Star extends Floater {
     corners = 8;
     int[] xS = {0, 1, 4,  1,  0, -1, -4, -1};
     int[] yS = {4, 1, 0, -1, -4, -1,  0,  1};
-
-    // hexagon stars
-    // corners = 6;
-    // int[] xS = {3, 6,  3, -3, -6, -3};
-    // int[] yS = {5, 0, -5, -5,  0,  5};
 
     // actual star shape
     // corners = 10;
@@ -117,12 +127,41 @@ class Star extends Floater {
   public double getPointDirection() {return myPointDirection;}
 }
 
+class Asteroid extends Floater {
+
+  Asteroid() {
+    myColor = color(103, 115, 125);
+    myCenterX = Math.random() * 600;
+    myCenterY = Math.random() * 400;
+    myDirectionX = 0;
+    myDirectionY = 0;
+    myPointDirection = Math.random() * 360;
+    // hexagon asteroids
+    corners = 6;
+    int[] xS = {3, 6,  3, -3, -6, -3};
+    int[] yS = {5, 0, -5, -5,  0,  5};
+    xCorners = xS;
+    yCorners = yS;
+  }
+
+  public void setX(int x) {myCenterX = x;}
+  public int  getX() {return (int)myCenterX;}
+  public void setY(int y) {myCenterY = y;}
+  public int  getY() {return (int)myCenterY;}
+  public void   setDirectionX(double x) {myPointDirection = x;}
+  public double getDirectionX() {return myDirectionX;}
+  public void   setDirectionY(double y) {myDirectionY = y;}
+  public double getDirectionY() {return myDirectionY;}
+  public void   setPointDirection(int degrees) {myPointDirection = degrees;}
+  public double getPointDirection() {return myPointDirection;}
+}
+
 //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 abstract class Floater {
   protected int corners;  //the number of corners, a triangular floater has 3   
   protected int[] xCorners;
   protected int[] yCorners;
-  protected color myStrokeColor, myFillColor;
+  protected color myColor;
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
@@ -171,8 +210,7 @@ abstract class Floater {
   }
   //Draws the floater at the current position
   public void show() {
-    fill(myFillColor);
-    stroke(myStrokeColor);
+    fill(myColor);
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);          
     int xRotatedTranslated, yRotatedTranslated;
