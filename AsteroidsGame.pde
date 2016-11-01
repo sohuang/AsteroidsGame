@@ -129,6 +129,8 @@ class Star extends Floater {
 
 class Asteroid extends Floater {
 
+  private int rotSpeed;
+
   Asteroid() {
     myColor = color(103, 115, 125);
     myCenterX = Math.random() * 600;
@@ -136,12 +138,19 @@ class Asteroid extends Floater {
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = Math.random() * 360;
+    rotSpeed = (int)(Math.random() * 4);
+    System.out.println(rotSpeed);
     // hexagon asteroids
     corners = 6;
-    int[] xS = {3, 6,  3, -3, -6, -3};
-    int[] yS = {5, 0, -5, -5,  0,  5};
+    int[] xS = { 6, 12,   6,  -6, -12, -6};
+    int[] yS = {10,  0, -10, -10,   0, 10};
     xCorners = xS;
     yCorners = yS;
+  }
+
+  public void move() {
+    rotate(rotSpeed);
+    super.move();
   }
 
   public void setX(int x) {myCenterX = x;}
