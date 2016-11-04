@@ -1,4 +1,5 @@
 SpaceShip spaceship;
+Rockets rockets;
 Star[] stars;
 int numStars = 50;
 Asteroid[] asteroids;
@@ -7,9 +8,10 @@ int numAsteroids = 10;
 public void setup() {
   size(600, 400);
   background(0, 25, 50);
-  noCursor();
+  // noCursor();
   noStroke();
   spaceship = new SpaceShip();
+  rockets = new Rockets(spaceship.getX(), spaceship.getY(), spaceship.getDirectionX(), spaceship.getDirectionY(), spaceship.getPointDirection());
   stars = new Star[numStars];
   for (int i = 0; i < numStars; i++) {
     stars[i] = new Star();
@@ -27,6 +29,7 @@ public void draw() {
   }
   // background(15, 25, 50, 0.1);
   spaceship.move();
+  rockets.move();
   spaceship.show();
   
   for (int i = 0; i < numAsteroids; i++) {
@@ -36,22 +39,6 @@ public void draw() {
   }
 }
 public void keyPressed() {
-  if (keyCode == LEFT  || key == 'a' || key == 'A') {
-    // rotate left
-    spaceship.rotate(-10);
-  }
-  if (keyCode == RIGHT || key == 'd' || key == 'D') {
-    // rotate right
-    spaceship.rotate(10);
-  }
-  if (keyCode == UP    || key == 'w' || key == 'W') {
-    // accelerate forward
-    spaceship.accelerate(0.75);
-  }
-  if (keyCode == DOWN  || key == 's' || key == 'S') {
-    // accelerate backward
-    spaceship.accelerate(-0.75);
-  }
   if (key == ' ') {
     // hyperspace
     spaceship.setX((int)(Math.random() * 600));
@@ -59,6 +46,30 @@ public void keyPressed() {
     spaceship.setDirectionX(0);
     spaceship.setDirectionY(0);
     spaceship.setPointDirection((int)(Math.random() * 360));
+    rockets = new Rockets(spaceship.getX(), spaceship.getY(), spaceship.getDirectionX(), spaceship.getDirectionY(), spaceship.getPointDirection());
+  } else {
+    if (keyCode == LEFT  || key == 'a' || key == 'A') {
+      // rotate left
+      spaceship.rotate(-10);
+      rockets.rotate(-10);
+    }
+    if (keyCode == RIGHT || key == 'd' || key == 'D') {
+      // rotate right
+      spaceship.rotate(10);
+      rockets.rotate(10);
+    }
+    if (keyCode == UP    || key == 'w' || key == 'W') {
+      // accelerate forward
+      spaceship.accelerate(0.7);
+      rockets.show();
+      rockets.accelerate(0.7);
+    }
+    if (keyCode == DOWN  || key == 's' || key == 'S') {
+      // accelerate backward
+      spaceship.accelerate(-0.7);
+      rockets.accelerate(-0.7);
+      rockets.show();
+    }
   }
 }
 class SpaceShip extends Floater {
@@ -139,7 +150,6 @@ class Asteroid extends Floater {
     myDirectionY = 0;
     myPointDirection = Math.random() * 360;
     rotSpeed = (int)(Math.random() * 4);
-    System.out.println(rotSpeed);
     // hexagon asteroids
     corners = 6;
     int[] xS = { 6, 12,   6,  -6, -12, -6};
@@ -151,6 +161,63 @@ class Asteroid extends Floater {
   public void move() {
     rotate(rotSpeed);
     super.move();
+  }
+
+  public void setX(int x) {myCenterX = x;}
+  public int  getX() {return (int)myCenterX;}
+  public void setY(int y) {myCenterY = y;}
+  public int  getY() {return (int)myCenterY;}
+  public void   setDirectionX(double x) {myPointDirection = x;}
+  public double getDirectionX() {return myDirectionX;}
+  public void   setDirectionY(double y) {myDirectionY = y;}
+  public double getDirectionY() {return myDirectionY;}
+  public void   setPointDirection(int degrees) {myPointDirection = degrees;}
+  public double getPointDirection() {return myPointDirection;}
+}
+
+class Rockets extends Floater {
+
+  Rockets() {
+    myColor = color(255, 255, 255);
+    myCenterX = Math.random() * 600;
+    myCenterY = Math.random() * 400;
+    myDirectionX = 0;
+    myDirectionY = 0;
+    myPointDirection = 0;
+  }
+
+  Rockets(int spaceShipX, int spaceShipY, double spaceShipDirX, double spaceShipDirY, double spaceShipPointDir) {
+    myColor = color(255, 255, 255);
+    myCenterX = spaceShipX;
+    myCenterY = spaceShipY;
+    myDirectionX = spaceShipDirX;
+    myDirectionY = spaceShipDirY;
+    myPointDirection = spaceShipPointDir;
+
+    corners = 8;
+    int[] xS = {-5, -10, -4, -11, -5, -10, 8, 0};
+    int[] yS = { 1,   3,  0,   0, -1,  -3, 0, 0};
+    xCorners = xS;
+    yCorners = yS;
+  }
+  //Draws the floater at the current position
+  //Same as Floater but beginShape(LINES)
+  public void show() {
+    fill(myColor);
+    stroke(myColor);
+    strokeWeight(2);
+    //convert degrees to radians for sin and cos         
+    double dRadians = myPointDirection*(Math.PI/180);          
+    int xRotatedTranslated, yRotatedTranslated;
+    beginShape(LINES);
+    for(int nI = 0; nI < corners; nI++) {
+      //rotate and translate the coordinates of the floater using current direction 
+      xRotatedTranslated = (int)((xCorners[nI]* Math.cos(dRadians)) - (yCorners[nI] * Math.sin(dRadians))+myCenterX);
+      yRotatedTranslated = (int)((xCorners[nI]* Math.sin(dRadians)) + (yCorners[nI] * Math.cos(dRadians))+myCenterY);
+      vertex(xRotatedTranslated,yRotatedTranslated);
+    }
+    endShape(CLOSE);
+    noStroke();
   }
 
   public void setX(int x) {myCenterX = x;}
