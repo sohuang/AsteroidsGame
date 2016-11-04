@@ -150,7 +150,8 @@ class Asteroid extends Floater {
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = Math.random() * 360;
-    rotSpeed = (int)(Math.random() * 4);
+    rotSpeed = (int)(Math.random() * 4 - 2);
+    // System.out.println(rotSpeed);
     // hexagon asteroids
     corners = 6;
     int[] xS = { 6, 12,   6,  -6, -12, -6};
