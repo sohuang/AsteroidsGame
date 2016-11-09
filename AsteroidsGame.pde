@@ -2,7 +2,7 @@ SpaceShip spaceship;
 Rockets rockets;
 Star[] stars;
 int numStars = 50;
-Asteroid[] asteroids;
+ArrayList<Asteroid> asteroids;
 int numAsteroids = 10;
 
 public void setup() {
@@ -16,10 +16,10 @@ public void setup() {
   for (int i = 0; i < numStars; i++) {
     stars[i] = new Star();
   }
-  asteroids = new Asteroid[numAsteroids];
+  asteroids = new ArrayList<Asteroid>();
   for (int i = 0; i < numAsteroids; i++) {
-    asteroids[i] = new Asteroid();
-    asteroids[i].accelerate(Math.random() * 0.3);
+    asteroids.add(new Asteroid());
+    asteroids.get(i).accelerate(Math.random() * 0.3);    
   }
 }
 public void draw() {
@@ -32,10 +32,15 @@ public void draw() {
   rockets.move();
   spaceship.show();
   
-  for (int i = 0; i < numAsteroids; i++) {
-    asteroids[i].show();
-    asteroids[i].rotate(1);
-    asteroids[i].move();
+  for (int i = 0; i < asteroids.size(); i++) {
+    asteroids.get(i).show();
+    asteroids.get(i).rotate(1);
+    asteroids.get(i).move();
+  }
+  for (int i = asteroids.size() - 1; i >= 0; i--) {
+    if (dist(spaceship.getX(), spaceship.getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) <= 14) {
+      asteroids.remove(i);
+    }
   }
 }
 public void keyPressed() {
@@ -60,18 +65,19 @@ public void keyPressed() {
     }
     if (keyCode == UP    || key == 'w' || key == 'W') {
       // accelerate forward
-      spaceship.accelerate(0.7);
+      spaceship.accelerate(0.5);
+      rockets.accelerate(0.5);
       rockets.show();
-      rockets.accelerate(0.7);
     }
     if (keyCode == DOWN  || key == 's' || key == 'S') {
       // accelerate backward
-      spaceship.accelerate(-0.7);
-      rockets.accelerate(-0.7);
+      spaceship.accelerate(-0.5);
+      rockets.accelerate(-0.5);
       rockets.show();
     }
   }
 }
+
 class SpaceShip extends Floater {
 
   SpaceShip() {
