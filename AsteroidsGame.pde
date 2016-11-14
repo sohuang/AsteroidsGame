@@ -38,7 +38,7 @@ public void draw() {
     asteroids.get(i).move();
   }
   for (int i = asteroids.size() - 1; i >= 0; i--) {
-    if (dist(spaceship.getX(), spaceship.getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) <= 14) {
+    if (dist(spaceship.getX(), spaceship.getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) <= 16) {
       asteroids.remove(i);
     }
   }
