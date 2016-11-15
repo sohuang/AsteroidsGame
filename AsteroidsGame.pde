@@ -1,9 +1,10 @@
 SpaceShip spaceship;
 Rockets rockets;
 Star[] stars;
-int numStars = 50;
+int numStars = 80;
 ArrayList<Asteroid> asteroids;
 int numAsteroids = 10;
+ArrayList<Bullet> bullets;
 
 public void setup() {
   size(600, 400);
@@ -21,6 +22,7 @@ public void setup() {
     asteroids.add(new Asteroid());
     asteroids.get(i).accelerate(Math.random() * 0.3);    
   }
+  bullet = new Bullet(spaceship);
 }
 public void draw() {
   background(0, 25, 50);
@@ -108,8 +110,11 @@ class SpaceShip extends Floater {
 }
 
 class Star extends Floater {
+  private boolean shapeChooser;
 
   Star() {
+    shapeChooser = Math.random() < 0.5;
+    
     // myColor = color(0, 50, 100);
     myColor = color(163, 181, 194);
     myCenterX = Math.random() * 600;
@@ -130,6 +135,15 @@ class Star extends Floater {
 
     xCorners = xS;
     yCorners = yS;
+  }
+
+  public void show() {
+    if (shapeChooser) {
+      super.show();
+    } else {
+      fill(255);
+      ellipse((int)myCenterX, (int)myCenterY, 1.5, 1.5);
+    }
   }
 
   public void setX(int x) {myCenterX = x;}
@@ -250,11 +264,39 @@ class Rockets extends Floater {
   public int  getX() {return (int)myCenterX;}
   public void setY(int y) {myCenterY = y;}
   public int  getY() {return (int)myCenterY;}
-  public void   setDirectionX(double x) {myPointDirection = x;}
+  public void setDirectionX(double x) {myPointDirection = x;}
   public double getDirectionX() {return myDirectionX;}
-  public void   setDirectionY(double y) {myDirectionY = y;}
+  public void setDirectionY(double y) {myDirectionY = y;}
   public double getDirectionY() {return myDirectionY;}
-  public void   setPointDirection(int degrees) {myPointDirection = degrees;}
+  public void setPointDirection(int degrees) {myPointDirection = degrees;}
+  public double getPointDirection() {return myPointDirection;}
+}
+
+public class Bullet extends Floater {
+
+  Bullet(SpaceShip theShip) {
+    myCenterX = theShip.getX();
+    myCenterY = theShip.getY();
+    myPointDirection = theShip.getPointDirection();
+    double dRadians = myPointDirection * (Math.PI/180);
+    myDirectionX = theShip.getDirectionX() + (5 * Math.cos(dRadians));
+    myDirectionY = theShip.getDirectionY() + (5 * Math.sin(dRadians));
+  }
+
+  public void show() {
+    fill(255);
+    ellipse((int)myCenterX, (int)myCenterY, 3, 3);
+  }
+
+  public void setX(int x) {myCenterX = x;}
+  public int  getX() {return (int)myCenterX;}
+  public void setY(int y) {myCenterY = y;}
+  public int  getY() {return (int)myCenterY;}
+  public void setDirectionX(double x) {myDirectionY = x;}
+  public double getDirectionX() {return myDirectionX;}
+  public void setDirectionY(double y) {myDirectionY = y;}
+  public double getDirectionY() {return myDirectionY;}
+  public void setPointDirection(int degrees) {myPointDirection = degrees;}
   public double getPointDirection() {return myPointDirection;}
 }
 
