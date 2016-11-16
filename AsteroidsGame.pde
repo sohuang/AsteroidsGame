@@ -56,6 +56,16 @@ public void draw() {
       }
     }
   }
+  for (int i = bullets.size() - 1; i >= 0; i--) {
+    for (int j = asteroids.size() - 1; j >= 0; j--) {
+      while (bullets != null && asteroids != null) {
+        if (dist(bullets.get(i).getX(), bullets.get(i).getY(), asteroids.get(j).getX(), asteroids.get(j).getY()) <= (bullets.get(i).getRadius() + asteroids.get(j).getRadius())) {
+          bullets.remove(i);
+          asteroids.remove(j);
+        }
+      }
+    }
+  }
 }
 
 public void keyPressed() {
