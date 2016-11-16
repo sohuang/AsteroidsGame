@@ -26,6 +26,7 @@ public void setup() {
   bullets = new ArrayList<Bullet>();
   bullet = new Bullet(spaceship);
 }
+
 public void draw() {
   background(0, 25, 50);
   for (int i = 0; i < numStars; i++) {
@@ -56,6 +57,7 @@ public void draw() {
     }
   }
 }
+
 public void keyPressed() {
   if (key == ENTER) {
     // hyperspace
