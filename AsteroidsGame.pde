@@ -6,6 +6,7 @@ ArrayList<Asteroid> asteroids;
 int numAsteroids = 10;
 ArrayList<Bullet> bullets;
 Bullet bullet;
+int score;
 
 public void setup() {
   size(600, 400);
@@ -25,6 +26,7 @@ public void setup() {
   }
   bullets = new ArrayList<Bullet>();
   bullet = new Bullet(spaceship);
+  score = 0;
 }
 
 public void draw() {
@@ -32,6 +34,11 @@ public void draw() {
   for (int i = 0; i < numStars; i++) {
     stars[i].show();
   }
+
+  stroke(255);
+  text("Score: " + score, width / 2, height / 2);
+  noStroke();
+
   // background(15, 25, 50, 0.1);
   spaceship.move();
   rockets.move();
@@ -45,6 +52,7 @@ public void draw() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
     if (dist(spaceship.getX(), spaceship.getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) <= 16) {
       asteroids.remove(i);
+      score -= 10;
     }
   }
   if (bullets != null) {
@@ -63,6 +71,7 @@ public void draw() {
           if (bullets != null && asteroids != null) { 
             bullets.remove(bullets.get(i));
             asteroids.remove(asteroids.get(j));
+            score += 50;
             break;
           }
         }
