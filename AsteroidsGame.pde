@@ -1,3 +1,4 @@
+PFont space_mono;
 SpaceShip spaceship;
 Rockets rockets;
 Star[] stars;
@@ -11,6 +12,7 @@ int score;
 public void setup() {
   size(600, 400);
   background(0, 25, 50);
+  space_mono = createFont("SpaceMono-Regular.ttf", 32);
   // noCursor();
   noStroke();
   spaceship = new SpaceShip();
@@ -36,6 +38,8 @@ public void draw() {
   }
 
   stroke(255);
+  textFont(space_mono);
+  textSize(16);
   text("Score: " + score, width / 2, height / 2);
   noStroke();
 
