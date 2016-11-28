@@ -40,7 +40,14 @@ public void draw() {
   stroke(255);
   textFont(space_mono);
   textSize(16);
-  text("Score: " + score, width / 2, height / 2);
+  String formatter = "";
+  if (score < 100) {
+    formatter = "0";
+  }
+  if (score < 10) {
+    formatter = "00";
+  }
+  text("Score: " + formatter + score, width - 110, 20);
   noStroke();
 
   // background(15, 25, 50, 0.1);
