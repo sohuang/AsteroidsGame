@@ -42,12 +42,21 @@ public void draw() {
   textSize(16);
   String formatter = "";
   if (score < 100) {
-    formatter = "0";
+    formatter = " 0";
   }
   if (score < 10) {
-    formatter = "00";
+    formatter = " 00";
   }
-  text("Score: " + formatter + score, width - 110, 20);
+  if (score < 0) {
+    formatter = "-00";
+  }
+  if (score < -9) {
+    formatter = "-0";
+  }
+  if (score < -99) {
+    formatter = "-";
+  }
+  text("Score: " + formatter + Math.abs(score), width - 120, 20);
   noStroke();
 
   // background(15, 25, 50, 0.1);
