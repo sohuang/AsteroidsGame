@@ -8,6 +8,8 @@ int numAsteroids = 10;
 ArrayList<Bullet> bullets;
 Bullet bullet;
 int score;
+// game loop
+boolean isGameOver = false;
 
 public void setup() {
   size(600, 400);
@@ -15,20 +17,11 @@ public void setup() {
   space_mono = createFont("SpaceMono-Regular.ttf", 32);
   // noCursor();
   noStroke();
-  spaceship = new SpaceShip();
-  rockets = new Rockets(spaceship.getX(), spaceship.getY(), spaceship.getDirectionX(), spaceship.getDirectionY(), spaceship.getPointDirection());
   stars = new Star[numStars];
   for (int i = 0; i < numStars; i++) {
     stars[i] = new Star();
   }
-  asteroids = new ArrayList<Asteroid>();
-  for (int i = 0; i < numAsteroids; i++) {
-    asteroids.add(new Asteroid());
-    asteroids.get(i).accelerate(Math.random() * 0.3);    
-  }
-  bullets = new ArrayList<Bullet>();
-  bullet = new Bullet(spaceship);
-  score = 0;
+  init();
 }
 
 public void draw() {
@@ -96,7 +89,9 @@ public void draw() {
       }
     }
   }
-  int countA = 1; int countB = 2;
+  if (asteroids == null) {
+    isGameOver = true;
+  }
 }
 
 public void keyPressed() {
@@ -136,7 +131,23 @@ public void keyPressed() {
       Bullet b = new Bullet(spaceship);
       bullets.add(b);
     }
+    if (key == BACKSPACE) {
+      init();
+    }
   }
+}
+
+public void init() {
+  spaceship = new SpaceShip();
+  rockets = new Rockets(spaceship.getX(), spaceship.getY(), spaceship.getDirectionX(), spaceship.getDirectionY(), spaceship.getPointDirection());
+  asteroids = new ArrayList<Asteroid>();
+  for (int i = 0; i < numAsteroids; i++) {
+    asteroids.add(new Asteroid());
+    asteroids.get(i).accelerate(Math.random() * 0.3);    
+  }
+  bullets = new ArrayList<Bullet>();
+  bullet = new Bullet(spaceship);
+  score = 0;
 }
 
 class SpaceShip extends Floater {
