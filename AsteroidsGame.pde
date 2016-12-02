@@ -8,7 +8,6 @@ int numAsteroids = 10;
 ArrayList<Bullet> bullets;
 Bullet bullet;
 int score;
-// game loop
 boolean isGameOver = false;
 
 public void setup() {
