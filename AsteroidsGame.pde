@@ -13,7 +13,8 @@ boolean isGameOver = false;
 public void setup() {
   size(600, 400);
   background(0, 25, 50);
-  space_mono = createFont("SpaceMono-Regular.ttf", 32);
+  space_mono = createFont("Space Mono", 32);
+  textFont(space_mono);
   // noCursor();
   noStroke();
   stars = new Star[numStars];
@@ -130,7 +131,6 @@ public void init() {
 
 public void showScore() {
   stroke(255);
-  textFont(space_mono);
   textSize(16);
   String formatter = "";
   if (score < 100) {

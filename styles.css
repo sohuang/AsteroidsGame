@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Space Mono";
+    src: url(SpaceMono-Regular.ttf);
+}
+
 
 body {
     background-color: rgb(200,200,200);
