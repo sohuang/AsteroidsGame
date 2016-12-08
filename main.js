@@ -5,7 +5,7 @@ function init() {
   // console.log(someimage);
 
   // document.body.style.background = 'url('+someimage+'.png) no-repeat center center'
-  document.body.style.backgroundImage = "url(images/bg" + (Math.floor(Math.random() * 7)) + ".png)";
+  document.body.style.backgroundImage = "url(images/bg" + (Math.floor(Math.random() * 7) + 1) + ".png)";
   document.body.style.color = "#FFFFFF";
 }
 window.onload = init;
